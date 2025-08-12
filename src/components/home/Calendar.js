@@ -164,12 +164,6 @@ export default function Calendar({ events, initialDate = new Date() }) {
           actuar y construir un mundo más justo.
         </p>
         <p>
-          Desde el <strong>Día Mundial de la Ética</strong>, que nos invita a poner nuestros valores en acción,
-          hasta jornadas dedicadas a la <strong>diversidad cultural</strong>, la <strong>no discriminación</strong>
-          y la <strong>solidaridad</strong>, cada conmemoración nos recuerda que la verdadera transformación
-          empieza en nuestras decisiones diarias.
-        </p>
-        <p>
           <strong>Marca estas fechas, compártelas y vívelas.</strong>
           La inclusión y la ética no son eventos aislados: son el camino hacia una sociedad
           donde todas las voces cuentan y cada persona importa.
