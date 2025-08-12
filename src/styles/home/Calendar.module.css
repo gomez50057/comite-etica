@@ -60,6 +60,43 @@
   color: var(--text);
 }
 
+.legendActionsRow {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.legendButton {
+  font-size: 0.9rem;
+  padding: 0.45rem 0.7rem;
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-card);
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.legendButton:hover {
+  background: var(--vinoOsc, #691B32);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+
+.legendNote {
+  display: block;
+  margin-top: 0.5rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  transition: color 0.3s ease, text-decoration-color 0.3s ease;
+}
+
+.legendNote strong {
+  color: var(--vinoOsc, #691B32);
+}
+
 /* ====== Header & calendario ====== */
 .header {
   display: flex;

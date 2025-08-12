@@ -150,6 +150,42 @@ export default function Calendar({ events, initialDate = new Date() }) {
                 <li key={i} className={styles.eventItem}>
                   <span className={styles.eventBullet} style={{ backgroundColor: ev.color || "var(--acc)" }} />
                   <span className={styles.eventTitle}>{ev.title}</span>
+
+                  {/* Acciones por evento */}
+                  <div style={{ marginLeft: "auto", display: "flex", gap: ".5rem" }}>
+                    <a
+                      href={buildGoogleCalendarUrl(ev)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Agregar a Google Calendar"
+                      title="Agregar a Google Calendar"
+                      style={{
+                        textDecoration: "none",
+                        fontSize: ".8rem",
+                        padding: ".3rem .5rem",
+                        borderRadius: "8px",
+                        border: "1px solid var(--glass-border)",
+                        background: "var(--glass-card)",
+                      }}
+                    >
+                      Google
+                    </a>
+                    <button
+                      onClick={() => downloadICS(ev)}
+                      aria-label="Descargar archivo .ics para Apple Calendar"
+                      title="Agregar a Apple/iOS (ICS)"
+                      style={{
+                        fontSize: ".8rem",
+                        padding: ".3rem .5rem",
+                        borderRadius: "8px",
+                        border: "1px solid var(--glass-border)",
+                        background: "var(--glass-card)",
+                        cursor: "pointer",
+                      }}
+                    >
+                      iOS
+                    </button>
+                  </div>
                 </li>
               ))}
             </ul>
@@ -157,6 +193,7 @@ export default function Calendar({ events, initialDate = new Date() }) {
         )}
       </div>
 
+      {/* -------- Leyenda + Acciones para TODO el calendario -------- */}
       <div className={styles.legend}>
         <h3><span className="spanDoarado">Celebremos</span> la <span className="spanVino">Inclusión</span> y la <span className="spanVino">Ética</span> Todo el Año</h3>
         <p>
@@ -168,9 +205,26 @@ export default function Calendar({ events, initialDate = new Date() }) {
           La inclusión y la ética no son eventos aislados: son el camino hacia una sociedad
           donde todas las voces cuentan y cada persona importa.
         </p>
+
+        <div className={styles.legendActionsRow}>
+          <button
+            onClick={() => downloadAllICS(resolvedEvents)}
+            aria-label="Descargar .ics con todos los eventos"
+            title="Descargar .ics (Apple/Outlook/iOS/macOS)"
+            className={styles.legendButton}
+          >
+            Descargar .ics (todos)
+          </button>
+        </div>
+
+
+        <small className={styles.legendNote}>
+          {resolvedEvents.length} eventos en total · El archivo en formato <strong>.ics</strong> es compatible con la mayoría de calendarios
+          (Google Calendar, Apple Calendar en iOS/macOS, Outlook y otros).
+          Al exportar, podrás abrirlo directamente o importarlo en tu aplicación de calendario preferida.
+        </small>
       </div>
     </section>
-
   );
 }
 
@@ -217,3 +271,139 @@ function formatHuman(key, locale) {
 }
 
 function capitalize(str) { return str.charAt(0).toUpperCase() + str.slice(1); }
+
+/* -------- Add to Calendar helpers (Google & iOS/ICS) -------- */
+
+/** Convierte "YYYY-MM-DD" a "YYYYMMDD" (todo el día). */
+function ymdCompact(dateStr) {
+  return dateStr.replaceAll("-", "");
+}
+
+/** Suma n días a "YYYY-MM-DD" y devuelve "YYYYMMDD". */
+function addDaysCompact(dateStr, n) {
+  const [y, m, d] = dateStr.split("-").map(Number);
+  const dt = new Date(y, m - 1, d);
+  dt.setDate(dt.getDate() + n);
+  const y2 = dt.getFullYear();
+  const m2 = String(dt.getMonth() + 1).padStart(2, "0");
+  const d2 = String(dt.getDate()).padStart(2, "0");
+  return `${y2}${m2}${d2}`;
+}
+
+/** URL de Google Calendar para evento de TODO EL DÍA. */
+function buildGoogleCalendarUrl(ev) {
+  const title = encodeURIComponent(ev.title || "Evento");
+  const start = ymdCompact(ev.date);
+  const end = addDaysCompact(ev.date, 1); // fin exclusivo
+  const details = encodeURIComponent("Añadido desde el calendario del comité.");
+  const location = ""; // si tienes ubicación, colócala aquí
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${start}/${end}&details=${details}&location=${location}`;
+}
+
+/** ICS de un solo evento (todo el día). */
+function buildICS(ev) {
+  const uid = `${ev.date}-${slugify(ev.title)}@comite-ethics`;
+  const dtstamp = toIcsTimestamp(new Date());
+  const dtstart = ymdCompact(ev.date);
+  const dtend = addDaysCompact(ev.date, 1);
+  const summary = escapeICS(ev.title || "Evento");
+  const description = escapeICS("Añadido desde el calendario del comité.");
+
+  return [
+    "BEGIN:VEVENT",
+    `UID:${uid}`,
+    `DTSTAMP:${dtstamp}`,
+    `DTSTART;VALUE=DATE:${dtstart}`,
+    `DTEND;VALUE=DATE:${dtend}`,
+    `SUMMARY:${summary}`,
+    `DESCRIPTION:${description}`,
+    "END:VEVENT",
+  ].join("\r\n");
+}
+
+/** Descarga .ics de 1 evento. */
+function downloadICS(ev) {
+  const ics = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//Comité de Ética//Calendario//ES",
+    "CALSCALE:GREGORIAN",
+    "METHOD:PUBLISH",
+    buildICS(ev),
+    "END:VCALENDAR",
+  ].join("\r\n");
+
+  const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  const safeName = `${slugify(ev.title || "evento")}-${ev.date}.ics`;
+  a.href = url;
+  a.download = safeName;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+/** Construye un ICS con TODOS los eventos (dedup por fecha+titulo). */
+function buildICSAll(events) {
+  const seen = new Set();
+  const vevents = [];
+  for (const ev of events) {
+    if (!ev?.date || !ev?.title) continue;
+    const key = `${ev.date}::${ev.title}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    vevents.push(buildICS(ev));
+  }
+  return [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//Comité de Ética//Calendario completo//ES",
+    "CALSCALE:GREGORIAN",
+    "METHOD:PUBLISH",
+    ...vevents,
+    "END:VCALENDAR",
+  ].join("\r\n");
+}
+
+/** Descarga .ics con TODOS los eventos. */
+function downloadAllICS(events) {
+  const ics = buildICSAll(events);
+  const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `calendario-comite.ics`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+/* -------- Utilidades ICS -------- */
+function toIcsTimestamp(date) {
+  const y = date.getUTCFullYear();
+  const m = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const d = String(date.getUTCDate()).padStart(2, "0");
+  const hh = String(date.getUTCHours()).padStart(2, "0");
+  const mm = String(date.getUTCMinutes()).padStart(2, "0");
+  const ss = String(date.getUTCSeconds()).padStart(2, "0");
+  return `${y}${m}${d}T${hh}${mm}${ss}Z`;
+}
+
+function slugify(str) {
+  return String(str)
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+function escapeICS(text) {
+  return String(text)
+    .replace(/\\/g, "\\\\")
+    .replace(/;/g, "\\;")
+    .replace(/,/g, "\\,")
+    .replace(/\n/g, "\\n");
+}
