@@ -1,0 +1,153 @@
+.hero {
+  width: 100vw;
+  height: calc(100vh - 85px);
+  margin-top: 85px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  gap: 20rem;
+  padding: 2.5rem 2rem;
+}
+
+.logo {
+  width: 55vw;
+  height: auto;
+}
+
+.sideImage {
+  width: 15vw;
+  height: 25rem;
+  object-fit: contain;
+  background: #3FA9F5;
+  border-radius: 20rem;
+  padding: 20px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Barra de texto */
+.tickerBar {
+  width: 100%;
+  height: 10vh;
+  margin-bottom: 10vh;
+  background: var(--ticker-bg);
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 10px 0;
+  transform: rotate(1deg);
+  transform-origin: left center;
+}
+
+.tickerTrack {
+  display: inline-block;
+  animation: ticker 60s linear infinite;
+  transform: rotate(-1deg);
+  /* neutraliza la inclinación del texto */
+}
+
+.tickerList {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tickerItem {
+  color: var(--ticker-fg);
+  font-size: 3.5rem;
+  font-weight: 500;
+}
+
+@keyframes ticker {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* ========================= */
+/* Ajustes para Tablets   */
+/* ========================= */
+@media (max-width: 1024px) {
+  .inner {
+    gap: 8rem;
+    padding: 2rem 1.5rem;
+  }
+
+  .logo {
+    width: 60vw;
+  }
+
+  .sideImage {
+    width: 20vw;
+    height: 20rem;
+    border-radius: 15rem;
+  }
+
+  .tickerItem {
+    font-size: 2.5rem;
+  }
+}
+
+/* ========================= */
+/* Ajustes para Móviles   */
+/* ========================= */
+@media (max-width: 768px) {
+  .hero {
+    height: auto;
+    margin-top: 60px;
+    justify-content: flex-start;
+  }
+
+  .inner {
+    flex-direction: column;
+    gap: 2rem;
+    text-align: center;
+  }
+
+  .logo {
+    width: 80vw;
+  }
+
+  .sideImage {
+    width: 40vw;
+    height: auto;
+    border-radius: 5rem;
+    padding: 15px;
+  }
+
+  .tickerBar {
+    height: 8vh;
+    margin-bottom: 5vh;
+  }
+
+  .tickerItem {
+    font-size: 1.8rem;
+  }
+}
+
+/* ========================= */
+/* Ajustes para Pantallas Muy Pequeñas */
+/* ========================= */
+@media (max-width: 480px) {
+  .logo {
+    width: 90vw;
+  }
+
+  .sideImage {
+    width: 50vw;
+    padding: 12px;
+  }
+
+  .tickerItem {
+    font-size: 1.5rem;
+  }
+}
