@@ -2,11 +2,11 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
-import './Team.css';
+import './TeamProtocoloCero.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Team = ({ teamName, teamSubName, teamMembers, isTecnicoTeam = false }) => {
+const TeamProtocoloCero = ({ teamName, teamSubName, teamMembers, isTecnicoTeam = false }) => {
   const teamRef = useRef(null);
 
   useEffect(() => {
@@ -76,4 +76,4 @@ const Team = ({ teamName, teamSubName, teamMembers, isTecnicoTeam = false }) => 
   );
 };
 
-export default Team;
+export default TeamProtocoloCero;

@@ -1,0 +1,240 @@
+
+.wrapper {
+  /* design tokens locales */
+  --radius: 75px;
+  --radius-inner: 65px;
+  --shadow-sm: 0 6px 18px rgba(15, 23, 42, .10);
+  --shadow-lg: 0 18px 40px rgba(15, 23, 42, .16);
+  --ring: 0 0 0 3px rgba(96, 165, 250, .28);
+
+  /* PALETA (solo colores actualizados, estilo minimal / liquid-glass) */
+  --frame-blue: #f1f5fb;
+  /* marco: azul-neutro muy claro */
+  --inner-blue: #fbfdff;
+  /* ventana: casi blanco con tinte frío */
+  --text-white: #0b1220;
+  /* texto sobre glass ahora oscuro */
+  --text-white-dim: rgba(11, 18, 32, .72);
+
+  width: 100%;
+  padding: 1.5rem 1rem 2rem;
+}
+
+/* ---- Encabezados ---- */
+.title {
+  margin: 0;
+  text-align: center;
+  font-weight: 700;
+  color: var(--doradoOsc);
+  /* gris muy oscuro, alta legibilidad */
+  letter-spacing: .2px;
+  font-size: clamp(1.25rem, 1.1rem + .6vw, 1.75rem);
+}
+
+.subtitle {
+  margin: .25rem 0 1.5rem;
+  text-align: center;
+  color: #5b6573;
+  /* gris medio frío */
+  font-weight: 500;
+  letter-spacing: .15px;
+  font-size: clamp(1rem, .95rem + .3vw, 1.1rem);
+}
+
+/* ---- Grid con tarjetas de tamaño FIJO (mismo ancho/alto) ---- */
+.grid {
+  /* medidas de tarjeta */
+  --card-w: 310px;
+  /* ancho fijo de la tarjeta */
+  --frame-pad: 16px;
+  --footer-h: 106px;
+  --footer-mt: 14px;
+
+  /* derivadas */
+  --window-size: calc(var(--card-w) - (var(--frame-pad) * 2));
+  --card-h: calc(var(--window-size) + var(--footer-h) + var(--footer-mt) + (var(--frame-pad) * 2));
+
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, var(--card-w));
+  grid-auto-rows: var(--card-h);
+  gap: clamp(1rem, 2vw, 2.2rem);
+  justify-content: center;
+  /* centra cuando sobra espacio */
+}
+
+/* ---- Card / Frame ---- */
+.card {
+  perspective: 800px;
+  position: relative;
+  width: var(--card-w);
+  height: var(--card-h);
+  transition: transform .25s ease, filter .25s ease;
+}
+
+.frame {
+  position: relative;
+  background: linear-gradient(180deg,
+      color-mix(in oklab, var(--frame-blue) 96%, #ffffff 4%) 0%,
+      color-mix(in oklab, var(--frame-blue) 85%, #d9e3f2 15%) 100%);
+  border-radius: var(--radius);
+  padding: var(--frame-pad);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  box-shadow: var(--shadow-sm), inset 0 0 0 1px rgba(255, 255, 255, .28);
+  overflow: visible;
+  /* permite pop-out de la imagen */
+  will-change: transform, box-shadow;
+  transition: box-shadow .25s ease, transform .25s ease, filter .25s ease;
+}
+
+/* Glow suave alrededor en hover */
+.card::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: calc(var(--radius) + 6px);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .25s ease;
+  background: radial-gradient(40% 60% at 50% 0%,
+      color-mix(in oklab, var(--frame-blue) 38%, #ffffff) 0%,
+      transparent 70%);
+  z-index: 0;
+}
+
+/* ---- Ventana cuadrada + Imagen ---- */
+.window {
+  background: var(--inner-blue);
+  border-radius: var(--radius-inner);
+  width: 100%;
+  height: var(--window-size);
+  /* cuadrado por construcción */
+  aspect-ratio: 1 / 1;
+  position: relative;
+  overflow: visible;
+  /* para hover que se sale */
+  z-index: 1;
+  /* sobre el footer */
+}
+
+.window img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* respeta silueta */
+  user-select: none;
+  -webkit-user-drag: none;
+  transition: transform .35s ease, filter .2s ease;
+  will-change: transform;
+  transform-origin: center bottom;
+  filter: drop-shadow(0 8px 14px rgba(15, 23, 42, .16));
+}
+
+/* ---- Footer ---- */
+.footer {
+  height: var(--footer-h);
+  position: relative;
+  color: var(--text-white);
+  text-align: center;
+  padding: 12px 14px 18px;
+  display: grid;
+  align-content: start;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35);
+}
+
+.role {
+  font-size: 1.03rem;
+  font-weight: 800;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.name {
+  margin-top: 6px;
+  font-size: .94rem;
+  font-weight: 600;
+  color: var(--text-white-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.email {
+  position: absolute;
+  right: 10px;
+  bottom: 6px;
+  font-size: .68rem;
+  line-height: 1;
+  color: var(--text-white-dim);
+  text-decoration: none;
+}
+
+.email:hover {
+  text-decoration: underline;
+}
+
+/* ---- Interacciones: hover y focus ---- */
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-4px);
+  }
+
+  .card:hover .window img {
+    transform: scale(1.15);
+  }
+
+  .card:hover .footer {
+    filter: brightness(.96);
+  }
+}
+
+/* Ring accesible al navegar con teclado */
+.card:focus-within .frame {
+  box-shadow: var(--shadow-lg), var(--ring), inset 0 0 0 1px rgba(255, 255, 255, .28);
+}
+
+
+
+
+
+/* Footer: permite ver todo el texto si es largo */
+.footer {
+  height: var(--footer-h);
+  position: relative;
+  color: var(--text-white);
+  text-align: center;
+
+  /* ↑ aumenta un poco el padding inferior para que no tape el email */
+  padding: 12px 14px 28px;
+
+  display: grid;
+  align-content: start;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35);
+
+  /* clave para mostrar todo el texto dentro del alto fijo */
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(15, 23, 42, .35) transparent;
+}
+.footer::-webkit-scrollbar { width: 6px; }
+.footer::-webkit-scrollbar-thumb { background: rgba(15, 23, 42, .35); border-radius: 6px; }
+.footer::-webkit-scrollbar-track { background: transparent; }
+
+/* Role y Name: sin truncado, con salto de línea */
+.role,
+.name {
+  white-space: normal;       /* antes: nowrap */
+  text-overflow: clip;       /* antes: ellipsis */
+  word-break: break-word;    /* evita desbordes por palabras largas */
+}
+
+/* (opcional) si quieres que el email no se solape, deja más espacio abajo */
+/* .footer { padding-bottom: 34px; } */

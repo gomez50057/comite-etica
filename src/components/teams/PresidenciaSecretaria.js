@@ -1,5 +1,5 @@
 import React from 'react';
-import Team from '@/components/teams/Team';
+import Team from '@/components/teams/Base/Team';
 import { presidenciaSecretaria } from '@/utils/teamComite';
 
 const PresidenciaSecretaria = () => {

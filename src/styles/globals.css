@@ -21,12 +21,9 @@
   --radius: 20px;
 
   --text: #1f2937;
-  /* gris oscuro amable */
   --muted: #6b7280;
-  /* gris medio */
   --line: rgba(15, 23, 42, 0.08);
   --acc: #8b5cf6;
-  /* violeta suave por defecto para puntos */
 }
 
 

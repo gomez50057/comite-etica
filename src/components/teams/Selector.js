@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState } from 'react';
-import ComiteComponent from './ZM/ComiteComponent';
-import ProtocoloCeroComponent from './ZM/ProtocoloCeroComponent';
-import styles from './ZonasMetropolitanas.module.css';
+import ComiteComponent from './View-Comite-Protocolo/ComiteComponent';
+import ProtocoloCeroComponent from './View-Comite-Protocolo/ProtocoloCeroComponent';
+import styles from './Selector.module.css';
 
-const ZonasMetropolitanas = () => {
+const Selector = () => {
   const [zonaSeleccionada, setZonaSeleccionada] = useState('eleccionCEPCI'); // Estado para la zona seleccionada
   const [fade, setFade] = useState('fade-in'); // Estado para el efecto de fade
 
@@ -48,4 +48,4 @@ const ZonasMetropolitanas = () => {
   );
 };
 
-export default ZonasMetropolitanas;
+export default Selector;
