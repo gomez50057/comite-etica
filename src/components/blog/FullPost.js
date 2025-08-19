@@ -2,48 +2,52 @@
 import FeaturedPosts from "./FeaturedPosts";
 import styles from "./FullPost.module.css";
 import Navbar from "../shared/Navbar";
-import { renderDescription } from "../../utils/blogData";
+import { renderDescription } from "@/utils/blogData";
 
 const FullPost = ({ post, featuredPosts }) => {
-  if (!post) {
-    return <p>La publicación no existe.</p>;
-  }
+  if (!post) return <p>La publicación no existe.</p>;
 
   return (
     <>
       <Navbar />
       <div className={styles.postContainer}>
-        {/* Columna de la Nota */}
-        <div className={styles.postContent}>
+        {/* Nota principal */}
+        <article className={styles.postContent}>
           {post.image && (
             <img
               src={post.image}
               alt={post.name}
               className={styles.postImage}
+              decoding="async"
             />
           )}
+
           <div className={styles.meta}>
             <p>
-              {post.authorEmail
-                ? post.authorEmail
-                : "Coordinación General de Planeación y Proyectos"}{" "}
-              · {post.date}
+              {post.authorEmail || "Coordinación General de Planeación y Proyectos"} ·{" "}
+              <time dateTime={post.date}>{post.date}</time>
             </p>
           </div>
+
           <h1 className={styles.title}>{post.name}</h1>
 
           <div className={styles.description}>
-            <ul style={{ listStyleType: "disc", padding: "0" }}>
+            <ul className={styles.list}>
               {renderDescription(post.description)}
             </ul>
           </div>
-          {post.quote && <div className={styles.quote}>&quot;{post.quote}&quot;</div>}
-        </div>
 
-        {/* Columna de Publicaciones Destacadas */}
-        <div className={styles.sidebar}>
+          {post.quote && (
+            <blockquote className={styles.quote}>
+              “{post.quote}”
+            </blockquote>
+          )}
+        </article>
+
+        {/* Publicaciones destacadas */}
+        <aside className={styles.sidebar} aria-label="Publicaciones destacadas">
           <FeaturedPosts featuredPosts={featuredPosts} />
-        </div>
+        </aside>
       </div>
     </>
   );

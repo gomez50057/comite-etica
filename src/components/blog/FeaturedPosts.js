@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './FeaturedPosts.module.css'; 
 import Link from "next/link";
-import { normalizeName } from "../../utils/blogData";
+import { normalizeName } from "@/utils/blogData";
 
 const FeaturedPosts = ({ featuredPosts }) => {
   return (
@@ -17,7 +17,7 @@ const FeaturedPosts = ({ featuredPosts }) => {
             />
             <div className={styles.featuredContent}>
               <p className={styles.featuredDate}>{post.date}</p>
-              <Link href={`/noticias/${normalizeName(post.name)}`} className={styles.featuredLink} >{post.name}</Link>
+              <Link href={`/blog/${normalizeName(post.name)}`} className={styles.featuredLink} >{post.name}</Link>
             </div>
           </li>
         ))}

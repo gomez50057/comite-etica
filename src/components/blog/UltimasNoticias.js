@@ -1,6 +1,6 @@
 import styles from "./UltimasNoticias.module.css";
 import Link from "next/link";
-import { normalizeName, renderDescription } from "../../utils/blogData";
+import { normalizeName, renderDescription } from "@/utils/blogData";
 
 const UltimasNoticias = ({ posts }) => {
   const MAX_LENGTH = 50; // Máxima longitud antes de mostrar "..."
@@ -22,7 +22,7 @@ const UltimasNoticias = ({ posts }) => {
             </div>
 
             {/* Botón para ver más detalles */}
-            <Link href={`/noticias/${normalizeName(post.name)}`} className="readMoreBtn" >Leer más</Link>
+            <Link href={`/blog/${normalizeName(post.name)}`} className="readMoreBtn" >Leer más</Link>
             {/* Mostrar cita si existe */}
             {post.quote && <div className={styles.quote}>&quot;{post.quote}&quot;</div>}
           </div>
