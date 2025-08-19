@@ -1,153 +1,125 @@
 .hero {
-  width: 100vw;
-  height: calc(100vh - 85px);
+  position: relative;
+  width: 100%;
+  min-height: calc(100svh - 85px);
   margin-top: 85px;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
+  overflow: hidden;
+  background: #f7f8fb;
 }
 
+/* bloque superior: logo + icono */
 .inner {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 20rem;
-  padding: 2.5rem 2rem;
+  gap: clamp(12px, 3vw, 20px);
+  padding: clamp(24px, 5vw, 40px) clamp(16px, 4vw, 32px) 0;
 }
 
 .logo {
-  width: 55vw;
+  width: clamp(260px, 20vw, 580px);
   height: auto;
+  display: block;
 }
 
 .sideImage {
-  width: 15vw;
-  height: 25rem;
+  width: clamp(72px, 9vw, 120px);
+  height: clamp(88px, 11vw, 160px);
   object-fit: contain;
   background: #3FA9F5;
-  border-radius: 20rem;
-  padding: 20px;
+  border-radius: 999px;
+  padding: clamp(8px, 1.4vw, 12px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
 }
 
-/* Barra de texto */
-.tickerBar {
+/* ===== Bloque inferior: 3 columnas ===== */
+.imgContainer {
   width: 100%;
-  height: 10vh;
-  margin-bottom: 10vh;
-  background: var(--ticker-bg);
-  overflow: hidden;
-  white-space: nowrap;
-  padding: 10px 0;
-  transform: rotate(1deg);
-  transform-origin: left center;
+  display: grid;
+  grid-template-columns: minmax(120px, 1fr) minmax(340px, 2.4fr) minmax(120px, 1fr);
+  align-items: end;
+  justify-items: center;
+  gap: clamp(12px, 3vw, 28px);
+  padding: clamp(12px, 3vw, 24px);
+  margin-top: -50vh;
 }
 
-.tickerTrack {
-  display: inline-block;
-  animation: ticker 60s linear infinite;
-  transform: rotate(-1deg);
-  /* neutraliza la inclinación del texto */
+/* columnas específicas */
+.imgLeft {
+  grid-column: 1;
 }
 
-.tickerList {
-  display: flex;
-  gap: 30px;
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.imgCenter {
+  grid-column: 2;
 }
 
-.tickerItem {
-  color: var(--ticker-fg);
-  font-size: 3.5rem;
-  font-weight: 500;
+.imgRight {
+  grid-column: 3;
 }
 
-@keyframes ticker {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-50%);
-  }
+/* laterales */
+.imgLaterales {
+  width: clamp(120px, 20vw, 410px);
+  object-fit: cover;
+  display: block;
 }
 
-/* ========================= */
-/* Ajustes para Tablets   */
-/* ========================= */
+/* central */
+.imgCentral {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* ===== Tablet ===== */
 @media (max-width: 1024px) {
-  .inner {
-    gap: 8rem;
-    padding: 2rem 1.5rem;
+  .imgContainer {
+    grid-template-columns: 1fr 1.6fr 1fr; /* central más dominante */
+    gap: clamp(10px, 3.5vw, 22px);
+    margin-top: -30vh; /* menos superposición */
   }
 
-  .logo {
-    width: 60vw;
+  .imgCentral {
+    max-width: 760px;
   }
 
-  .sideImage {
-    width: 20vw;
-    height: 20rem;
-    border-radius: 15rem;
-  }
-
-  .tickerItem {
-    font-size: 2.5rem;
+  .imgLaterales {
+    width: clamp(140px, 24vw, 260px);
   }
 }
 
-/* ========================= */
-/* Ajustes para Móviles   */
-/* ========================= */
-@media (max-width: 768px) {
-  .hero {
+/* ===== Móvil ===== */
+@media (max-width: 680px) {
+  .imgContainer {
+    grid-template-columns: 1fr;
+    gap: clamp(10px, 4vw, 18px);
+    margin-top: -20vh; /* más suave en móviles */
+  }
+
+  /* orden en móviles */
+  .imgCenter {
+    order: 1;
+  }
+
+  .imgLeft {
+    order: 2;
+  }
+
+  .imgRight {
+    order: 3;
+  }
+
+  .imgCentral {
+    width: min(92vw, 560px);
     height: auto;
-    margin-top: 60px;
-    justify-content: flex-start;
   }
 
-  .inner {
-    flex-direction: column;
-    gap: 2rem;
-    text-align: center;
-  }
-
-  .logo {
-    width: 80vw;
-  }
-
-  .sideImage {
-    width: 40vw;
+  .imgLaterales {
+    width: min(44vw, 240px);
     height: auto;
-    border-radius: 5rem;
-    padding: 15px;
-  }
-
-  .tickerBar {
-    height: 8vh;
-    margin-bottom: 5vh;
-  }
-
-  .tickerItem {
-    font-size: 1.8rem;
-  }
-}
-
-/* ========================= */
-/* Ajustes para Pantallas Muy Pequeñas */
-/* ========================= */
-@media (max-width: 480px) {
-  .logo {
-    width: 90vw;
-  }
-
-  .sideImage {
-    width: 50vw;
-    padding: 12px;
-  }
-
-  .tickerItem {
-    font-size: 1.5rem;
   }
 }
