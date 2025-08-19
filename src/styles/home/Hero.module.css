@@ -20,14 +20,14 @@
 }
 
 .logo {
-  width: clamp(260px, 20vw, 580px);
+  width: clamp(580px, 20vw, 580px);
   height: auto;
   display: block;
 }
 
 .sideImage {
-  width: clamp(72px, 9vw, 120px);
-  height: clamp(88px, 11vw, 160px);
+  width: clamp(120px, 9vw, 120px);
+  height: clamp(160px, 11vw, 160px);
   object-fit: contain;
   background: #3FA9F5;
   border-radius: 999px;
@@ -75,51 +75,60 @@
   display: block;
 }
 
-/* ===== Tablet ===== */
+
 @media (max-width: 1024px) {
   .imgContainer {
-    grid-template-columns: 1fr 1.6fr 1fr; /* central más dominante */
+    grid-template-columns: 1fr;
+    justify-items: center;
+    margin-top: -24vh;
     gap: clamp(10px, 3.5vw, 22px);
-    margin-top: -30vh; /* menos superposición */
+  }
+
+  .imgLeft,
+  .imgRight {
+    display: none;
+  }
+
+  .imgCenter {
+    grid-column: 1;
   }
 
   .imgCentral {
-    max-width: 760px;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
   }
 
-  .imgLaterales {
-    width: clamp(140px, 24vw, 260px);
-  }
+
 }
 
-/* ===== Móvil ===== */
 @media (max-width: 680px) {
+  .logo {
+    width: clamp(260px, 20vw, 580px);
+    height: auto;
+    display: block;
+  }
+
   .imgContainer {
     grid-template-columns: 1fr;
+    margin-top: -12vh;
     gap: clamp(10px, 4vw, 18px);
-    margin-top: -20vh; /* más suave en móviles */
   }
 
-  /* orden en móviles */
-  .imgCenter {
-    order: 1;
-  }
-
-  .imgLeft {
-    order: 2;
-  }
-
+  .imgLeft,
   .imgRight {
-    order: 3;
+    display: none;
+  }
+
+  .imgCenter {
+    grid-column: 1;
   }
 
   .imgCentral {
-    width: min(92vw, 560px);
+    width: 100%;
+    max-width: 100%;
     height: auto;
-  }
-
-  .imgLaterales {
-    width: min(44vw, 240px);
-    height: auto;
+    object-fit: contain;
   }
 }
