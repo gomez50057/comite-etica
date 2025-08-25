@@ -1,4 +1,3 @@
-/* ====== Layout base ====== */
 .container {
   display: grid;
   grid-template-columns: 1fr 30%;
@@ -33,7 +32,6 @@
   max-height: 100%;
 }
 
-/* Ajustes visuales extras de legend (se mantienen sin duplicar) */
 .legend {
   flex: 1 1 30%;
   background: rgba(255, 255, 255, 0.8);
@@ -97,7 +95,6 @@
   color: var(--vinoOsc, #691B32);
 }
 
-/* ====== Header & calendario ====== */
 .header {
   display: flex;
   align-items: center;
@@ -151,7 +148,6 @@
   border-bottom: 1px solid var(--line);
 }
 
-/* Evitamos duplicado: mantenemos una sola definición combinada */
 .weekHeader,
 .grid {
   display: grid;
@@ -170,7 +166,6 @@
   grid-auto-rows: 110px;
 }
 
-/* ====== Celdas ====== */
 .cell {
   padding: 0.75rem;
   min-height: 80px;
@@ -219,7 +214,6 @@
   font-weight: 600;
 }
 
-/* ====== Marcadores de eventos ====== */
 .dots {
   display: flex;
   gap: 8px;
@@ -254,7 +248,6 @@
   box-shadow: 0 6px 14px rgba(105, 27, 50, 0.85), inset 0 0 0 3px rgba(255, 255, 255, 0.85);
 }
 
-/* Pulse sutil */
 @keyframes pulse-soft {
   0% {
     box-shadow: 0 0 0 0 rgba(139, 92, 246, .35), inset 0 0 0 1px rgba(255, 255, 255, .6);
@@ -280,7 +273,6 @@
   filter: saturate(1.25);
 }
 
-/* +N */
 .more {
   font-size: .75rem;
   color: var(--muted);
@@ -298,13 +290,11 @@
   background: rgba(0, 0, 0, .06);
 }
 
-/* Accesibilidad en marcadores */
 .cell:focus-visible .dot {
   outline: 2px solid rgba(99, 102, 241, .8);
   outline-offset: 2px;
 }
 
-/* ====== Tooltip ====== */
 .tooltip {
   position: absolute;
   top: 10px;
@@ -355,7 +345,6 @@
   margin-top: .2rem;
 }
 
-/* ====== Panel lateral ====== */
 .sidePanel {
   position: absolute;
   inset: 0 0 0 auto;
@@ -427,7 +416,6 @@
   font-size: .95rem;
 }
 
-/* ====== Responsive ====== */
 @media (max-width: 720px) {
   .grid {
     grid-auto-rows: 90px;
@@ -482,5 +470,179 @@
 
   .legend {
     padding: .85rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .container {
+    margin: 0.75rem 1rem;
+    gap: 0.75rem;
+    grid-template-columns: 1fr;
+  }
+
+  .wrapper {
+    padding: 0.75rem;
+    border-radius: 12px;
+  }
+
+  .legend {
+    padding: 0.75rem;
+    border-radius: 12px;
+  }
+
+  .legend h3 {
+    font-size: 1.05rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .legend p {
+    font-size: 0.9rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .legendActionsRow {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .legendButton {
+    width: 100%;
+    padding: 0.55rem 0.75rem;
+    font-size: 0.95rem;
+  }
+
+  .legendNote {
+    font-size: 0.8rem;
+  }
+
+  .header {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .monthTitle {
+    font-size: 1.05rem;
+    order: 2;
+    flex: 1 1 100%;
+    text-align: center;
+  }
+
+  .todayBtn,
+  .navBtn,
+  .closeBtn {
+    padding: 0.5rem 0.65rem;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    min-height: 40px;
+  }
+
+  .todayBtn {
+    margin-left: 0;
+    order: 3;
+    width: 100%;
+  }
+
+  .calendar {
+    border-radius: 12px;
+  }
+
+  .weekHeader {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .weekDay {
+    padding: 0.5rem 0.25rem;
+    font-size: 0.75rem;
+  }
+
+  .grid {
+    grid-auto-rows: 72px;
+  }
+
+  .cell {
+    padding: 0.5rem;
+    gap: 0.25rem;
+  }
+
+  .cell:hover {
+    transform: none;
+    background: #f8f8f8;
+  }
+
+  .dayNumber {
+    font-size: 0.9rem;
+  }
+
+  .dots {
+    gap: 6px;
+  }
+
+  .dot {
+    width: 18px;
+    height: 18px;
+    box-shadow: 0 2px 5px rgba(105, 27, 50, 0.5),
+      inset 0 0 0 2px rgba(255, 255, 255, 0.85);
+  }
+
+  .dot::after {
+    font-size: 11px;
+  }
+
+  .more {
+    font-size: 0.7rem;
+    padding: 0 0.2rem;
+  }
+
+  .tooltip {
+    right: 6px;
+    top: 6px;
+    min-width: auto;
+    max-width: 85vw;
+    padding: 0.5rem 0.55rem;
+    border-radius: 10px;
+  }
+
+  .tipText {
+    font-size: 0.85rem;
+  }
+
+  .sidePanel {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid var(--glass-border);
+    border-radius: 12px 12px 0 0;
+    padding-bottom: env(safe-area-inset-bottom, 12px);
+  }
+
+  .sideHeader {
+    padding: 0.9rem 0.9rem 0.65rem;
+  }
+
+  .eventList {
+    padding: 0.5rem 0.9rem 1rem;
+  }
+
+  .eventItem {
+    grid-template-columns: 12px 1fr;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+  }
+
+  .eventBullet {
+    width: 12px;
+    height: 12px;
+  }
+
+  .eventTitle {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) and (prefers-reduced-motion: reduce) {
+  .hasEvents .dot {
+    animation: none !important;
   }
 }
