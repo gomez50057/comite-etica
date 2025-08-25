@@ -1,6 +1,7 @@
 import Navbar from '@/components/shared/Navbar';
 import Hero from '@/components/home/Hero';
 import About from '@/components/home/About';
+import CampaignSpread from '@/components/home/CampaignTripleSpread';
 import Carousel from '@/components/home/Carousel';
 import Calendar from '@/components/home/Calendar';
 import DualBanner from '@/components/home/DualBanner';
@@ -16,6 +17,7 @@ export default function Home() {
       {/* <IntroVideoModal /> */}
       <Hero />
       <About />
+      <CampaignSpread />
       <Carousel />
       <Calendar />
       <DualBanner />

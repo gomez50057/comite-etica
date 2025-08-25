@@ -1,0 +1,135 @@
+.frame {
+  width: calc(100vw - 10rem);
+  margin: clamp(12px, 3vw, 24px) 5rem;
+  border: 3px solid var(--vinoOsc);
+  border-radius: 18px;
+  padding: 2rem 0;
+  background: linear-gradient(145deg, #ffffff, #fafafb);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .08);
+}
+
+/* Dos columnas: texto izq / galería der */
+.inner {
+  display: grid;
+  grid-template-columns: minmax(320px, 500px) minmax(0, 1fr);
+  align-items: center;
+}
+
+/* ---- Tarjeta de texto ---- */
+.textCard {
+  width: 103%;
+  background: #F2EADD;
+  padding: clamp(14px, 2.2vw, 20px);
+}
+
+.paragraph {
+  font-size: clamp(.95rem, 1.2vw, 1.05rem);
+  line-height: 1.6;
+  color: #222;
+  text-align: justify;
+}
+
+.paragraph strong {
+  color: var(--vinoOsc);
+  font-weight: 800;
+}
+
+.paragraph em {
+  font-style: italic;
+  font-weight: 700;
+
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  gap: clamp(12px, 2vw, 20px);
+  align-items: center;
+}
+
+/* Wrappers */
+.posterTallWrap,
+.posterWideWrap {
+  overflow: hidden;
+}
+
+/* Vertical estándar (izquierda) */
+.posterTall {
+  display: block;
+  width: clamp(140px, 20vw, 540px);
+  height: auto;
+  object-fit: cover;
+}
+
+/* Vertical angosta (centro) */
+.narrow .posterTall {
+  width: clamp(84px, 15vw, 600px);
+}
+
+/* Horizontal grande (derecha) */
+.posterWide {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* ---- Tablet ---- */
+@media (max-width: 1024px) {
+  .inner {
+    grid-template-columns: 1fr 1.25fr;
+    /* más espacio a la galería */
+  }
+
+  .posterTall {
+    width: clamp(120px, 18vw, 200px);
+  }
+
+  .narrow .posterTall {
+    width: clamp(78px, 10.5vw, 130px);
+  }
+}
+
+/* ---- Móvil ---- */
+@media (max-width: 768px) {
+  .inner {
+    grid-template-columns: 1fr;
+    /* texto arriba, galería abajo */
+  }
+
+  .gallery {
+    grid-template-columns: 1fr;
+    /* apilar 3 imágenes */
+  }
+
+  .posterTall,
+  .narrow .posterTall {
+    width: 100%;
+    max-width: 360px;
+    margin-inline: auto;
+  }
+}
+
+/* ---- Móvil pequeño ---- */
+@media (max-width: 480px) {
+  .frame {
+    border-width: 2px;
+    border-radius: 16px;
+    padding: 10px;
+  }
+
+  .posterTall,
+  .narrow .posterTall {
+    max-width: 300px;
+  }
+}
+
+/* Accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+
+  .posterTallWrap:hover,
+  .posterWideWrap:hover {
+    transition: none !important;
+    transform: none !important;
+  }
+}
