@@ -8,11 +8,7 @@ export default function About() {
     <section className={styles.container}>
       {/* Imagen a la izquierda */}
       <div className={styles.imageContainer}>
-        <img
-          src="/img/about-image.png"
-          alt="Ilustración ConCiencia Pública"
-          className={styles.image}
-        />
+        <img src="/img/about-image.png" alt="Ilustración ConCiencia Pública" className={styles.image} />
       </div>
 
       {/* Texto a la derecha */}

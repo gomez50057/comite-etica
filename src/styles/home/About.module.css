@@ -4,7 +4,7 @@
   justify-content: center;
   flex-wrap: wrap;
   width: calc(100vw - 10rem);
-  padding: 2.5rem 2rem;
+  padding: 2.5rem 5rem;
   margin: 2rem 5rem;
   background: #fff;
   border-radius: 4rem;
@@ -14,7 +14,8 @@
 
 /* Imagen a la izquierda */
 .imageContainer {
-  flex: 1 1 400px;
+  width: 230px;
+  height: auto;
   display: flex;
   justify-content: center;
   align-items: center;
