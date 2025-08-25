@@ -2,6 +2,7 @@ import Navbar from '@/components/shared/Navbar';
 import Hero from '@/components/home/Hero';
 import About from '@/components/home/About';
 import Calendar from '@/components/home/Calendar';
+import Carousel from '@/components/home/Carousel';
 
 // import Announcement from '@/components/home/Announcement';
 // import Chatbot from '@/components/chat/Chatbot';
@@ -14,6 +15,7 @@ export default function Home() {
       {/* <IntroVideoModal /> */}
       <Hero />
       <About />
+      <Carousel />
       <Calendar />
 
       {/* <Chatbot /> */}

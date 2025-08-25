@@ -1,0 +1,200 @@
+.carousel {
+  position: relative;
+  width: calc(100% - 10rem);
+  margin: 0 auto;
+  overflow: hidden;
+  outline: none;
+}
+
+.track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  user-select: none;
+  will-change: transform;
+}
+
+.track:active {
+  cursor: grabbing;
+}
+
+.animate {
+  transition-property: transform;
+  /* la duración se controla inline con style={{ transitionDuration }} */
+  transition-timing-function: cubic-bezier(.22, .61, .36, 1);
+}
+
+.slide {
+  min-width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  object-fit: contain;
+}
+
+.navBtn {
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+  z-index: 2;
+  border: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  background: color-mix(in oklab, #000 60%, #fff 0%);
+  color: #fff;
+  font-size: 24px;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform .15s ease, background .2s ease;
+}
+
+.navBtn:hover {
+  transform: scale(1.06);
+}
+
+.navBtn:active {
+  transform: scale(0.98);
+}
+
+.prev {
+  left: 8px;
+}
+
+.next {
+  right: 8px;
+}
+
+.dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  translate: -50% 0;
+  display: flex;
+  gap: 8px;
+  z-index: 2;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #8888;
+  border: 1px solid #fff3;
+  cursor: pointer;
+}
+
+.dot.active {
+  background: #fff;
+}
+
+@media (max-width: 1024px) {
+  .carousel {
+    width: calc(100% - 4rem);
+  }
+
+  .navBtn {
+    width: 48px;
+    height: 48px;
+    font-size: 26px;
+  }
+
+  .prev {
+    left: 10px;
+  }
+
+  .next {
+    right: 10px;
+  }
+
+  .dots {
+    bottom: 12px;
+    gap: 10px;
+  }
+
+  .dot {
+    width: 9px;
+    height: 9px;
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel {
+  width: calc(100% - 2rem);
+  }
+
+  .track {
+    height: 100%;
+  }
+
+  .navBtn {
+    width: 54px;
+    height: 54px;
+    font-size: 28px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, .25);
+    background: color-mix(in oklab, #000 70%, #fff 0%);
+  }
+
+  .prev {
+    left: 12px;
+  }
+
+  .next {
+    right: 12px;
+  }
+
+  .dots {
+    bottom: 14px;
+    gap: 10px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navBtn {
+    width: 26px;
+    height: 26px;
+    font-size: 15px;
+  }
+
+  .prev {
+    left: 5px;
+  }
+
+  .next {
+    right: 5px;
+  }
+
+  .dots {
+    bottom: 18px;
+    gap: 12px;
+  }
+
+  .dot {
+    width: 11px;
+    height: 11px;
+    border-width: 0;
+    background: #fff8;
+  }
+}
+
+/*   Accesibilidad: reduce motion   */
+@media (prefers-reduced-motion: reduce) {
+  .animate {
+    transition: none !important;
+  }
+}

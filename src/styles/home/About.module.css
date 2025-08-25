@@ -14,7 +14,7 @@
 
 /* Imagen a la izquierda */
 .imageContainer {
-  width: 230px;
+  width: 32vw;
   height: auto;
   display: flex;
   justify-content: center;
@@ -66,6 +66,10 @@
   .container {
     margin: 1.5rem 2rem;
     gap: 1rem;
+  }
+
+  .imageContainer {
+    width: 52vw;
   }
 
   .title {
