@@ -1,8 +1,9 @@
 "use client";
-import BlogHeader from "./BlogHeader";
-import BlogNoticias from "./BlogNoticias";
-import UltimasNoticias from "./UltimasNoticias";
-import { blogPosts } from "@/utils/blogData";
+// import HeroHacks from "@/components/shared/blogStructure/HeroHacks";
+import BlogHeader from "@/components/shared/blogStructure/BlogHeader";
+import BlogNoticias from "@/components/shared/blogStructure/BlogNoticias";
+import { blogPosts } from "@/utils/blog/blogData";
+import { categoryFilters } from "@/utils/blog/categoryFiltersBlog";
 
 const BlogMain = () => {
   // Solo posts con featuredPosts === true
@@ -10,9 +11,9 @@ const BlogMain = () => {
 
   return (
     <div>
-      <BlogHeader />
-      <UltimasNoticias posts={blogPosts.slice(0, 4)} />
-      <BlogNoticias posts={blogPosts} featuredPosts={featuredOnly} />
+      {/* <HeroHacks /> */}
+      <BlogHeader posts={blogPosts} />
+      <BlogNoticias posts={blogPosts} featuredPosts={featuredOnly} categoryFilters={categoryFilters} nameLink="blog"/>
     </div>
   );
 };

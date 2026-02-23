@@ -1,23 +1,33 @@
-import FullPost from '../../../components/blog/FullPost';
-import { blogPosts, normalizeName } from '../../../utils/blogData';
+import FullPost from '@/components/shared/blogStructure/FullPost';
+import { normalizeName } from '@/utils/renderText';
+import { blogPosts } from '@/utils/blog/blogData';
+import { notFound } from 'next/navigation';
 
-const PostPage = ({ params }) => {
-  const { name } = params; // Obtén el parámetro dinámico "name" desde los params
+export function generateStaticParams() {
+  return blogPosts.map(post => ({
+    name: normalizeName(post.name),
+  }));
+}
+
+const PostPage = async ({ params }) => {
+  const { name } = await params; // Obtén el parámetro dinámico "name" desde los params
 
   // Normaliza el "name" de la URL y compara con el nombre en blogPosts
   const post = blogPosts.find(
     post => normalizeName(post.name) === name
   );
 
-  // Si no se encuentra el post, podrías manejar el 404 aquí
+  // Si no se encuentra el post, mandamos al 404 global (app/not-found.js)
   if (!post) {
-    return <p>Post no encontrado</p>;
+    notFound();
   }
 
   return (
-    <div>
-      <FullPost post={post} featuredPosts={blogPosts} />
-    </div>
+    <>
+      <div>
+        <FullPost post={post} featuredPosts={blogPosts} />
+      </div>
+    </>
   );
 };
 
