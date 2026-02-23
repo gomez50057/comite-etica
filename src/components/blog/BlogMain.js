@@ -11,7 +11,6 @@ const BlogMain = () => {
 
   return (
     <div>
-      {/* <HeroHacks /> */}
       <BlogHeader posts={blogPosts} />
       <BlogNoticias posts={blogPosts} featuredPosts={featuredOnly} categoryFilters={categoryFilters} nameLink="blog"/>
     </div>

@@ -1,6 +1,6 @@
 export const categoryFilters = [
   { value: "ALL", label: "Todas", matchValues: ["ALL", "Todas"] },
-  { value: "noticias", label: "Noticias", matchValues: ["Noticias", "noticias"] },
-  { value: "eventos", label: "Eventos", matchValues: ["Eventos", "eventos"] },
-  { value: "entrevistas", label: "Entrevistas", matchValues: ["Entrevistas", "entrevistas"] },
+  { value: "integridad", label: "Integridad", matchValues: ["Integridad", "integridad"] },
+  { value: "etica-publica", label: "Ética Pública", matchValues: ["Ética Pública", "etica-publica"] },
+  { value: "proteccion-de-datos", label: "Protección de Datos", matchValues: ["Protección de Datos", "proteccion-de-datos"] },
 ];

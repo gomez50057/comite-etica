@@ -40,7 +40,7 @@ export default function FullPost({ post, featuredPosts = [] }) {
 
           <div className={styles.meta}>
             <p>
-              {post.authorEmail || "Gabriel Gómez Gómez"} ·{" "}
+              {post.authorEmail || "Comité de Ética y de Prevención de Conflictos de Interés"} ·{" "}
               <time dateTime={post.date}>{post.date}</time>
             </p>
           </div>

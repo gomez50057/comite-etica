@@ -1,7 +1,28 @@
-// **Texto**   → Texto en negrita
-// *Texto*     → Texto en cursiva
-// **_Texto_** → Texto en negrita y cursiva
-// `código`    → renderizado como <Snippet inline>
+
+
+/**
+ * Soporta:
+ * - **negritas**
+ * - *itálicas*
+ * **_combinado negrita y italica_**
+ * `código inline`
+ * - saltos de línea (\n)
+ *
+ * Nota:
+ * - Parser ligero, seguro (sin HTML crudo).
+ * - No soporta markdown complejo/anidado extremo (intencionalmente simple).
+ */
+
+/**
+ * Tipos soportados:
+ * - p      -> párrafo
+ * - h2     -> título de sección
+ * - h3     -> subtítulo / término
+ * - ul     -> lista (recomendado usar `items`)
+ * - li     -> elemento de lista (puede usarse dentro de `ul.items`)
+ * - quote  -> cita / bloque destacado
+ * - image  -> imagen dentro del contenido
+ */
 
 import styles from "@/styles/blog/FullPost.module.css";
 import Snippet from "@/components/shared/blogStructure/Snippet";
@@ -111,7 +132,6 @@ const parseFenceHeader = (rawHeader = "") => {
 };
 
 export const renderDescription = (description) => {
-  // 1) NUEVO FORMATO: array de bloques
   if (Array.isArray(description)) {
     return description.map((block, idx) => {
       if (!block || typeof block !== "object") return null;
@@ -168,16 +188,58 @@ export const renderDescription = (description) => {
 
         case "ul": {
           const items = Array.isArray(block.items) ? block.items : [];
+
           return (
             <li key={`ul-${idx}`} className={styles.noBullet}>
               <ul className={styles.list}>
-                {items.map((it, j) => (
-                  <li key={`uli-${j}`}>
-                    {typeof it === "string"
-                      ? renderInlineWithStyles(it)
-                      : renderInlineWithStyles(it?.text || "")}
-                  </li>
-                ))}
+                {items.map((it, j) => {
+                  // 1) string normal
+                  if (typeof it === "string") {
+                    return <li key={`uli-${j}`}>{renderInlineWithStyles(it)}</li>;
+                  }
+
+                  // 2) objetos (ej: link/downloadLink u otro con text)
+                  if (it && typeof it === "object") {
+                    // link dentro de ul
+                    if (it.type === "link" && it.href) {
+                      return (
+                        <li key={`uli-link-${j}`}>
+                          <a
+                            href={it.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles.link}
+                          >
+                            {it.text || it.href}
+                          </a>
+                        </li>
+                      );
+                    }
+
+                    // downloadLink dentro de ul
+                    if (it.type === "downloadLink" && it.href) {
+                      return (
+                        <li key={`uli-dl-${j}`}>
+                          <a
+                            href={it.href}
+                            download={it.fileName || true}
+                            className={styles.downloadLink}
+                          >
+                            {it.text || it.fileName || "Descargar archivo"}
+                          </a>
+                        </li>
+                      );
+                    }
+
+                    // fallback objeto con text
+                    return (
+                      <li key={`uli-${j}`}>
+                        {renderInlineWithStyles(it.text || "")}
+                      </li>
+                    );
+                  }
+                  return null;
+                })}
               </ul>
             </li>
           );

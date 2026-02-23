@@ -12,14 +12,27 @@ const LOGOS = [
 
 const NAV_ITEMS = [
   { label: "Inicio", href: "/" },
-  // {
-  //   label: "Materiales de apoyo",
-  //   submenu: [
-  //     { label: "Ecos del territorio hídrico", href: "/ecos-del-territorio-hidrico" },
-  //     { label: "Planeación para el futuro del agua", href: "/planeacion-para-el-futuro-del-agua" },
-  //   ],
-  // },
   { label: "Integrantes", href: "/integrantes" },
+  {
+    label: "Lineamientos",
+    submenu: [
+      {
+        label: "Código de Ética de la Administración Pública del Estado de Hidalgo",
+        href: "/pdf/Lineamientos/Código de Ética.pdf",
+        external: true,
+      },
+      {
+        label: "Código de Conducta de la Unidad de Planeación y Prospectiva",
+        href: "/pdf/Lineamientos/Código de Conducta.pdf",
+        external: true,
+      },
+      {
+        label: "Protocolo Cero para la Prevención, Atención y Sanción del Acosos Sexual y/o Laboral en la Administración Pública del Estado de Hidalgo",
+        href: "/pdf/Lineamientos/Protocolo Cero.pdf",
+        external: true,
+      },
+    ],
+  },
   { label: "Blog", href: "/blog" },
 
   // {
@@ -29,9 +42,6 @@ const NAV_ITEMS = [
   // },
 ];
 
-/**
- * Navbar: Componente principal que representa la barra de navegación.
- */
 const Navbar = () => {
   const [isVisible, setIsVisible] = useState(true); // Controla la visibilidad del navbar en scroll
   const [menuOpen, setMenuOpen] = useState(false); // Controla el estado del menú en mobile
@@ -39,9 +49,8 @@ const Navbar = () => {
   const lastScrollPos = useRef(0); // Referencia para guardar el último scroll
   const pathname = usePathname(); // Hook para detectar cambios de ruta
 
-  /**
-   * Hook: Controla la visibilidad de la navbar en base al scroll del usuario.
-   */
+
+  // Hook: Controla la visibilidad de la navbar en base al scroll del usuario.
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPos = window.pageYOffset;
@@ -53,36 +62,33 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  /**
-   * Hook: Cierra el menú y el submenu al cambiar de página.
-   */
+
+  //  Hook: Cierra el menú y el submenu al cambiar de página.
   useEffect(() => {
     setMenuOpen(false);
     setSubmenuOpen(false);
   }, [pathname]);
 
-  /**
-   * toggleMenu: Alterna el menú principal en mobile.
-   */
+
+  // toggleMenu: Alterna el menú principal en mobile.
   const toggleMenu = useCallback(() => setMenuOpen(prev => !prev), []);
 
-  /**
-   * toggleSubmenu: Alterna el submenu en mobile.
-   */
+
+  // toggleSubmenu: Alterna el submenu en mobile.
+
   const toggleSubmenu = useCallback(() => setSubmenuOpen(prev => !prev), []);
 
-  /**
-   * handleLinkClick: Cierra el menú y submenu en mobile después de hacer clic en un enlace.
-   */
+  
+  // handleLinkClick: Cierra el menú y submenu en mobile después de hacer clic en un enlace.
+  
   const handleLinkClick = () => {
     setMenuOpen(false);
     setSubmenuOpen(false);
   };
 
-  /**
-   * renderNavItems: Renderiza el menú de navegación para desktop y mobile.
-   * @param {boolean} isMobile - Determina si el renderizado es para mobile o desktop.
-   */
+  // renderNavItems: Renderiza el menú de navegación para desktop y mobile.
+  // @param {boolean} isMobile - Determina si el renderizado es para mobile o desktop.
+
   const renderNavItems = (isMobile = false) => (
     <ul className={isMobile ? styles.navbarOpcMobile : styles.navbarOpcDesktop}>
       {NAV_ITEMS.map((item, index) => (
@@ -90,16 +96,27 @@ const Navbar = () => {
           key={index}
           className={`
             ${item.submenu ? styles.dropdown : ""} 
-            ${isMobile && item.label === "Materiales de apoyo" && submenuOpen ? styles.dropdownOpen : ""}
+            ${isMobile && item.label === "Lineamientos" && submenuOpen ? styles.dropdownOpen : ""}
           `}
         >
           {item.submenu ? (
             <>
-              <span className={styles.dropdownToggle} onClick={isMobile ? toggleSubmenu : undefined}>{item.label}</span>
+              <span
+                className={styles.dropdownToggle}
+                onClick={isMobile ? toggleSubmenu : undefined}
+              >
+                {item.label}
+              </span>
+
               <ul className={`${styles.dropdownMenu} ${isMobile && submenuOpen ? styles.menuOpen : ""}`}>
                 {item.submenu.map((subItem, subIndex) => (
                   <li key={subIndex}>
-                    <Link href={subItem.href} onClick={isMobile ? handleLinkClick : undefined}>
+                    <Link
+                      href={subItem.href}
+                      onClick={isMobile ? handleLinkClick : undefined}
+                      target={subItem.external ? "_blank" : "_self"}
+                      rel={subItem.external ? "noopener noreferrer" : undefined}
+                    >
                       {subItem.label}
                     </Link>
                   </li>
@@ -144,6 +161,7 @@ const Navbar = () => {
             <div className={styles.NavbarCirculo} onClick={toggleMenu}>
               <img src="/img/estrella.webp" alt="Menú" />
             </div>
+
             {/* Menú horizontal para desktop */}
             {renderNavItems(false)}
           </div>
